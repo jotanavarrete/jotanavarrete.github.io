@@ -1,0 +1,35 @@
+---
+import HobbyCard from '@/components/HobbyCard.astro';
+import SectionHeader from '@/components/SectionHeader.astro';
+import { getLangFromUrl, useTranslations, type Lang } from '@/i18n/ui';
+
+const lang = getLangFromUrl(Astro.url) as Lang;
+const t = useTranslations(lang);
+
+// Hobbies are UI-ish content; keep them inline per language for now.
+// Move to data/hobbies.<lang>.json if the list grows.
+const hobbies = {
+  es: [
+    { icon: '📷', title: 'Fotografía', description: 'Capturo paisajes y calle los fines de semana.' },
+    { icon: '🎸', title: 'Música', description: 'Toco guitarra y experimento con producción.' },
+    { icon: '🥾', title: 'Senderismo', description: 'Exploro cerros y rutas cerca de casa.' },
+    { icon: '📚', title: 'Lectura', description: 'Ciencia ficción y ensayos sobre sistemas complejos.' },
+  ],
+  en: [
+    { icon: '📷', title: 'Photography', description: 'I shoot landscapes and street on weekends.' },
+    { icon: '🎸', title: 'Music', description: 'I play guitar and dabble in production.' },
+    { icon: '🥾', title: 'Hiking', description: 'I explore hills and trails near home.' },
+    { icon: '📚', title: 'Reading', description: 'Sci-fi and essays on complex systems.' },
+  ],
+}[lang];
+---
+
+<section
+  id="personal"
+  class="mx-auto max-w-5xl rounded-[26px] bg-accent-soft px-[22px] py-10 sm:px-10 sm:py-12"
+>
+  <SectionHeader kicker={t('personal.kicker')} title={t('personal.title')} sub={t('personal.sub')} />
+  <div class="mt-7 grid grid-cols-2 gap-4 sm:grid-cols-4">
+    {hobbies.map((h) => <HobbyCard title={h.title} description={h.description} icon={h.icon} />)}
+  </div>
+</section>

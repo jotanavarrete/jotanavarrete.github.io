@@ -1,9 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ExperienceCard from '@/components/ExperienceCard.astro';
-import SectionHeader from '@/components/SectionHeader.astro';
-import { getExperience } from '@/data/experience';
+import ExperienceSection from '@/components/ExperienceSection.astro';
 import { languages, useTranslations, type Lang } from '@/i18n/ui';
 
 export const getStaticPaths = (() =>
@@ -11,7 +9,6 @@ export const getStaticPaths = (() =>
 
 const { lang } = Astro.params as { lang: Lang };
 const t = useTranslations(lang);
-const items = getExperience(lang);
 ---
 
 <BaseLayout
@@ -20,10 +17,5 @@ const items = getExperience(lang);
     ? 'Experiencia laboral y trayectoria profesional.'
     : 'Work experience and professional background.'}
 >
-  <section class="mx-auto max-w-5xl px-[22px] py-11 sm:px-10 sm:py-13">
-    <SectionHeader kicker={t('exp.kicker')} title={t('exp.title')} sub={t('exp.sub')} />
-    <div class="mt-[34px] border-l-2 border-line pl-[26px]">
-      {items.map((item) => <ExperienceCard item={item} />)}
-    </div>
-  </section>
+  <ExperienceSection />
 </BaseLayout>

@@ -2,6 +2,9 @@
 import type { GetStaticPaths } from 'astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/Hero.astro';
+import ExperienceSection from '@/components/ExperienceSection.astro';
+import BlogSection from '@/components/BlogSection.astro';
+import PersonalSection from '@/components/PersonalSection.astro';
 import { languages, type Lang } from '@/i18n/ui';
 
 export const getStaticPaths = (() =>
@@ -23,4 +26,8 @@ const content = {
 
 <BaseLayout title={content.title} description={content.description}>
   <Hero />
+  <ExperienceSection />
+  <BlogSection limit={3} />
+  <PersonalSection />
+  <!-- Contact section is the site-wide Footer (#contact). -->
 </BaseLayout>

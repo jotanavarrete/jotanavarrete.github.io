@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import BlogCard from '@/components/BlogCard.astro';
+import SectionHeader from '@/components/SectionHeader.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n/ui';
+
+interface Props {
+  /** Cap the number of posts (e.g. 3 on the one-page landing). Omit for all. */
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+let posts = (await getCollection('blog'))
+  .filter((p) => p.data.lang === lang && !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const truncated = typeof limit === 'number' && posts.length > limit;
+if (typeof limit === 'number') posts = posts.slice(0, limit);
+
+// Post id is "<lang>/<slug>"; strip the lang folder for the URL.
+const slugOf = (id: string) => id.replace(/^[a-z]{2}\//, '');
+---
+
+<section id="blog" class="mx-auto max-w-5xl px-[22px] py-11 sm:px-10 sm:py-13">
+  <SectionHeader kicker={t('blog.kicker')} title={t('blog.title')} sub={t('blog.sub')} />
+  <div class="mt-[30px] grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
+    {
+      posts.map((post) => (
+        <BlogCard
+          href={`${base}/${lang}/blog/${slugOf(post.id)}`}
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          tags={post.data.tags}
+        />
+      ))
+    }
+  </div>
+  {
+    truncated && (
+      <a
+        href={`${base}/${lang}/blog`}
+        class="font-body mt-7 inline-block text-[13px] font-semibold text-accent hover:underline"
+      >
+        {t('blog.viewAll')} →
+      </a>
+    )
+  }
+</section>
