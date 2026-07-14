@@ -15,8 +15,8 @@ const t = useTranslations(lang);
 const dateLabel = pubDate.toLocaleDateString(lang, {
   year: 'numeric',
   month: 'short',
+  timeZone: 'UTC',
 });
-const primaryTag = tags[0];
 ---
 
 <a
@@ -24,15 +24,17 @@ const primaryTag = tags[0];
   data-reveal
   class="flex flex-col rounded-card border border-line bg-card p-5 no-underline transition duration-[250ms] hover:-translate-y-1 hover:border-accent-soft hover:shadow-[0_22px_44px_-28px_rgba(40,30,20,0.5)]"
 >
-  <div class="mb-3.5 flex items-center justify-between">
-    {
-      primaryTag && (
-        <span class="font-body rounded-[7px] bg-accent-soft px-[9px] py-1 text-[11px] tracking-[0.03em] text-accent uppercase">
-          {primaryTag}
-        </span>
-      )
-    }
-    <time datetime={pubDate.toISOString()} class="font-body text-[11px] text-muted">
+  <div class="mb-3.5 flex items-center justify-between gap-2">
+    <div class="flex flex-wrap gap-1.5">
+      {
+        tags.map((tag) => (
+          <span class="font-body rounded-[7px] bg-accent-soft px-[9px] py-1 text-[11px] tracking-[0.03em] text-accent uppercase">
+            {tag}
+          </span>
+        ))
+      }
+    </div>
+    <time datetime={pubDate.toISOString()} class="font-body shrink-0 text-[11px] text-muted">
       {dateLabel}
     </time>
   </div>

@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@plugin '@tailwindcss/typography';
 
 /* Tailwind v4 theme customization lives here via @theme.
    Design tokens from Claude Design ("editorial" variant). */
