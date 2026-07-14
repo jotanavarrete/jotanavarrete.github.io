@@ -13,18 +13,14 @@ const content = {
   es: {
     title: 'Jota Navarrete — Portfolio',
     description: 'Ingeniero de software. CV, experiencia y blog.',
-    name: 'Hola, soy Jota 👋',
-    tagline: 'Ingeniero de software enfocado en la web moderna.',
   },
   en: {
     title: 'Jota Navarrete — Portfolio',
     description: 'Software engineer. CV, experience and blog.',
-    name: "Hi, I'm Jota 👋",
-    tagline: 'Software engineer focused on the modern web.',
   },
 }[lang];
 ---
 
 <BaseLayout title={content.title} description={content.description}>
-  <Hero name={content.name} tagline={content.tagline} />
+  <Hero />
 </BaseLayout>
