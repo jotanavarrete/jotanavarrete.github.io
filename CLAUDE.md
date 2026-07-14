@@ -51,7 +51,9 @@ src/
 
 **Experiencia** — 2 JSON espejo (`experience.es.json` / `.en.json`). Cada entrada usa el mismo `id` en ambos idiomas para correlacionar. Campos neutros (fechas, tags, `companyUrl`) se repiten; solo los textos se traducen. Tipado en `data/experience.ts`.
 
-**Blog** — carpeta = idioma. `src/content/blog/es/mi-post.md` → `/es/blog/mi-post`. El frontmatter `lang` debe reflejar la carpeta. Schema valida `title, description, pubDate, lang, tags, heroImage?, draft`. El slug de URL se deriva quitando el prefijo `<lang>/` del id. Posts son independientes por idioma (no requiere paridad). Para vincular un post con su traducción, agregar `translationKey` al schema.
+**Blog** — carpeta = idioma. `src/content/blog/es/mi-post.md` → `/es/blog/mi-post`. El frontmatter `lang` debe reflejar la carpeta. Schema valida `title, description, pubDate, lang, translationKey?, tags, heroImage?, draft`. El slug de URL se deriva quitando el prefijo `<lang>/` del id. Posts son independientes por idioma (no requiere paridad). Fechas: `pubDate` se renderiza en `timeZone: 'UTC'` para evitar off-by-one en tz negativas.
+
+**Vincular traducciones de un post** — poner el mismo `translationKey` en el frontmatter de ambos idiomas (los slugs pueden diferir, ej. `primer-post` ↔ `first-post`). El `LanguageSwitcher` acepta un prop opcional `langOverrides` que `[...slug].astro` calcula vía `translationKey` y encadena `BaseLayout → Navbar → LanguageSwitcher`. Sin traducción para el idioma destino, el toggle cae al índice `/<lang>/blog` en vez de 404. Fuera del blog, el switcher solo intercambia el prefijo `/es|/en` (rutas comparten segmentos).
 
 **Hobbies** — inline por idioma en `pages/[lang]/hobbies.astro`. Mover a `data/hobbies.<lang>.json` si crece.
 

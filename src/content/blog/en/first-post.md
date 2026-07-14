@@ -3,6 +3,7 @@ title: 'My first post'
 description: 'Sample post to test the content collection in English.'
 pubDate: 2026-01-15
 lang: 'en'
+translationKey: 'first-post'
 tags: ['astro', 'intro']
 draft: false
 ---

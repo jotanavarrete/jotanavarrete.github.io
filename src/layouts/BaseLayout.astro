@@ -2,16 +2,19 @@
 import '@/styles/global.css';
 import Navbar from '@/components/Navbar.astro';
 import Footer from '@/components/Footer.astro';
-import { getLangFromUrl } from '@/i18n/ui';
+import { getLangFromUrl, type Lang } from '@/i18n/ui';
 
 interface Props {
   title: string;
   description: string;
   /** Optional OG image path relative to site root. */
   image?: string;
+  /** Per-language href overrides forwarded to the language switcher
+      (used by blog posts whose slug differs across languages). */
+  langOverrides?: Partial<Record<Lang, string>>;
 }
 
-const { title, description, image = '/og-default.png' } = Astro.props;
+const { title, description, image = '/og-default.png', langOverrides } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -52,7 +55,7 @@ const ogImage = new URL(image, Astro.site);
     <meta name="twitter:image" content={ogImage} />
   </head>
   <body class="min-h-screen flex flex-col bg-bg text-ink antialiased">
-    <Navbar />
+    <Navbar langOverrides={langOverrides} />
     <main class="flex-1">
       <slot />
     </main>

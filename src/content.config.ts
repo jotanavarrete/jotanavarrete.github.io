@@ -13,6 +13,10 @@ const blog = defineCollection({
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       lang: z.enum(['es', 'en']),
+      // Shared id to link a post with its translations across languages.
+      // Same value in each language's file; the switcher uses it to jump
+      // to the matching post even when slugs differ.
+      translationKey: z.string().optional(),
       heroImage: image().optional(),
       tags: z.array(z.string()).default([]),
       draft: z.boolean().default(false),

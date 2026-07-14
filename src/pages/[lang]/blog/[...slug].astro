@@ -2,24 +2,35 @@
 import type { GetStaticPaths } from 'astro';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { useTranslations, type Lang } from '@/i18n/ui';
+import { languages, useTranslations, type Lang } from '@/i18n/ui';
 
 export const getStaticPaths = (async () => {
+  const slugOf = (id: string) => id.replace(/^[a-z]{2}\//, '');
   const posts = await getCollection('blog');
-  return posts.map((post) => {
-    const lang = post.data.lang;
-    const slug = post.id.replace(/^[a-z]{2}\//, '');
-    return {
-      params: { lang, slug },
-      props: { post },
-    };
-  });
+  return posts.map((post) => ({
+    params: { lang: post.data.lang, slug: slugOf(post.id) },
+    props: { post, posts },
+  }));
 }) satisfies GetStaticPaths;
 
-const { post } = Astro.props;
+const slugOf = (id: string) => id.replace(/^[a-z]{2}\//, '');
+const { post, posts } = Astro.props;
 const { lang } = Astro.params as { lang: Lang };
 const t = useTranslations(lang);
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Language switcher targets: jump to the matching translation (slugs may
+// differ across languages), or fall back to that language's blog index.
+const key = post.data.translationKey;
+const langOverrides = Object.fromEntries(
+  (Object.keys(languages) as Lang[])
+    .filter((l) => l !== lang)
+    .map((l) => {
+      const match = key && posts.find((p) => p.data.lang === l && p.data.translationKey === key);
+      const href = match ? `${base}/${l}/blog/${slugOf(match.id)}` : `${base}/${l}/blog`;
+      return [l, href];
+    })
+) as Partial<Record<Lang, string>>;
 
 const { Content } = await render(post);
 const dateLabel = post.data.pubDate.toLocaleDateString(lang, {
@@ -30,7 +41,11 @@ const dateLabel = post.data.pubDate.toLocaleDateString(lang, {
 });
 ---
 
-<BaseLayout title={`${post.data.title} — Jota Navarrete`} description={post.data.description}>
+<BaseLayout
+  title={`${post.data.title} — Jota Navarrete`}
+  description={post.data.description}
+  langOverrides={langOverrides}
+>
   <article class="mx-auto max-w-3xl px-4 py-16">
     <a href={`${base}/${lang}/blog`} class="text-sm underline">← {t('blog.backToList')}</a>
     <h1 class="mt-4 text-3xl font-bold">{post.data.title}</h1>

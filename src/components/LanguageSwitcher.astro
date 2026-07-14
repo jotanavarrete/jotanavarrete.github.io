@@ -1,15 +1,24 @@
 ---
 import { languages, getLangFromUrl, switchLanguagePath, type Lang } from '@/i18n/ui';
 
+interface Props {
+  /** Per-language href overrides (e.g. blog posts whose slug differs
+      across languages). Falls back to prefix-swap when absent. */
+  langOverrides?: Partial<Record<Lang, string>>;
+}
+
+const { langOverrides } = Astro.props;
 const currentLang = getLangFromUrl(Astro.url);
 const base = import.meta.env.BASE_URL;
+
+const hrefFor = (lang: Lang) => langOverrides?.[lang] ?? switchLanguagePath(Astro.url, lang, base);
 ---
 
 <div class="flex items-center rounded-full border border-line bg-card p-[3px] text-[12px] font-medium">
   {
     (Object.keys(languages) as Lang[]).map((lang) => (
       <a
-        href={switchLanguagePath(Astro.url, lang, base)}
+        href={hrefFor(lang)}
         hreflang={lang}
         aria-current={lang === currentLang ? 'true' : undefined}
         class:list={[
