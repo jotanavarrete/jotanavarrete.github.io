@@ -1,0 +1,31 @@
+[
+  {
+    "id": "acme-senior",
+    "role": "Ingeniero de Software Senior",
+    "company": "Acme Corp",
+    "companyUrl": "https://example.com",
+    "location": "Remoto",
+    "startDate": "2022-03",
+    "endDate": null,
+    "summary": "Lidero el desarrollo de la plataforma web y mentoría del equipo frontend.",
+    "highlights": [
+      "Migré la app principal a Astro reduciendo el tiempo de carga en 40%.",
+      "Diseñé el sistema de componentes reutilizables usado por 4 equipos."
+    ],
+    "tags": ["Astro", "TypeScript", "Tailwind"]
+  },
+  {
+    "id": "startup-dev",
+    "role": "Desarrollador Full-Stack",
+    "company": "Startup XYZ",
+    "location": "Santiago, Chile",
+    "startDate": "2019-06",
+    "endDate": "2022-02",
+    "summary": "Construí features de punta a punta para un producto SaaS en crecimiento.",
+    "highlights": [
+      "Implementé la API de facturación y su panel de administración.",
+      "Automaticé el pipeline de despliegue con GitHub Actions."
+    ],
+    "tags": ["Node.js", "React", "PostgreSQL"]
+  }
+]
