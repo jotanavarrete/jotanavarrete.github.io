@@ -3,5 +3,17 @@ import { defaultLang } from '@/i18n/ui';
 
 // Root redirect to the default locale.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-return Astro.redirect(`${base}/${defaultLang}/`);
+const target = `${base}/${defaultLang}/`;
 ---
+
+<!DOCTYPE html>
+<html lang={defaultLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <script is:inline set:html={`location.replace(${JSON.stringify(target)})`}></script>
+    <link rel="canonical" href={target} />
+    <title>Redirecting…</title>
+  </head>
+  <body></body>
+</html>

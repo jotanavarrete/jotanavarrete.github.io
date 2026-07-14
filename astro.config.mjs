@@ -17,6 +17,9 @@ export default defineConfig({
     routing: {
       // Both locales are prefixed: /es/... and /en/...
       prefixDefaultLocale: true,
+      // Disable Astro's auto root-redirect (2s meta-refresh template);
+      // src/pages/index.astro handles it with an instant JS redirect.
+      redirectToDefaultLocale: false,
     },
   },
 
