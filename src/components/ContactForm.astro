@@ -1,0 +1,103 @@
+---
+// src/components/ContactForm.astro
+export interface Props {
+  lang: 'es' | 'en';
+}
+const { lang } = Astro.props;
+
+const t = {
+  es: {
+    name: 'Nombre',
+    email: 'Correo',
+    message: 'Mensaje',
+    send: 'Enviar',
+    sending: 'Enviando...',
+    success: '¡Mensaje enviado! Te responderé pronto.',
+    error: 'Hubo un error. Intenta de nuevo o escríbeme en otras plataformas.',
+  },
+  en: {
+    name: 'Name',
+    email: 'Email',
+    message: 'Message',
+    send: 'Send',
+    sending: 'Sending...',
+    success: 'Message sent! I\'ll get back to you soon.',
+    error: 'Something went wrong. Please try again or message me on other platforms.',
+  },
+}[lang];
+---
+
+<form id="contact-form" class="flex flex-col gap-4 max-w-md">
+  <input type="hidden" name="access_key" value="TU_ACCESS_KEY_AQUI" />
+  <input type="hidden" name="subject" value="Nuevo mensaje desde tu portfolio" />
+  <!-- honeypot anti-spam, debe quedar oculto y vacío -->
+  <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
+
+  <div class="flex flex-col gap-1">
+    <label for="name" class="text-sm font-medium">{t.name}</label>
+    <input
+      type="text" id="name" name="name" required
+      class="border rounded-lg px-3 py-2"
+    />
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label for="email" class="text-sm font-medium">{t.email}</label>
+    <input
+      type="email" id="email" name="email" required
+      class="border rounded-lg px-3 py-2"
+    />
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label for="message" class="text-sm font-medium">{t.message}</label>
+    <textarea
+      id="message" name="message" rows="4" required
+      class="border rounded-lg px-3 py-2"
+    ></textarea>
+  </div>
+
+  <button
+    type="submit"
+    class="bg-black text-white rounded-lg px-4 py-2 font-medium hover:opacity-90 transition"
+  >
+    {t.send}
+  </button>
+
+  <p id="form-status" class="text-sm"></p>
+</form>
+
+<script define:vars={{ t }}>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    status.textContent = t.sending;
+
+    const formData = new FormData(form);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        status.textContent = t.success;
+        status.className = 'text-sm text-green-600';
+        form.reset();
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (err) {
+      status.textContent = t.error;
+      status.className = 'text-sm text-red-600';
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>

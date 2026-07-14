@@ -7,8 +7,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // Routes share segments across locales; only the /es | /en prefix changes.
 const experienceHref = `${base}/${lang}/experience`;
-// No dedicated contact page yet — link to email until one exists.
-const contactHref = 'mailto:mail@mail.com';
+// Dedicated contact page (form) — avoids exposing email to spam.
+const contactHref = `${base}/${lang}/contact`;
 
 // Neutral, same in both languages — kept local, not a UI label.
 const skills = ['Python', 'Spark', 'SQL', 'Airflow', 'dbt', 'Kafka', 'Snowflake', 'AWS'];

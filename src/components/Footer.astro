@@ -4,9 +4,10 @@ import { getLangFromUrl, useTranslations } from '@/i18n/ui';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// TODO: replace with real contact details.
-const contactEmail = 'mail@mail.com';
+// Dedicated contact page (form) — avoids exposing email to spam.
+const contactHref = `${base}/${lang}/contact`;
 const socials = [
   { label: 'GitHub', href: '#' },
   { label: 'LinkedIn', href: '#' },
@@ -23,7 +24,7 @@ const socials = [
       {t('contact.sub')}
     </p>
     <a
-      href={`mailto:${contactEmail}`}
+      href={contactHref}
       class="font-body mt-[26px] inline-block rounded-[11px] bg-accent px-[26px] py-3.5 text-[15px] font-semibold text-white no-underline transition hover:-translate-y-0.5 hover:shadow-[0_16px_30px_-14px_var(--color-accent)]"
     >
       {t('contact.cta')}
