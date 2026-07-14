@@ -72,7 +72,9 @@ src/
 node scripts/gen-og.mjs public/og-default.png
 ```
 
-Props útiles de `BaseLayout`: `image`, `imageWidth`, `imageHeight`, `imageAlt`, `ogType`. Los blog posts pasan `ogType="article"` y usan `heroImage` como preview si existe (con sus dimensiones reales); sin `heroImage` caen al default. Validar con el debugger de LinkedIn / opengraph.xyz tras deploy.
+Props útiles de `BaseLayout`: `image`, `imageWidth`, `imageHeight`, `imageAlt`, `ogType`. Los blog posts pasan `ogType="article"` y usan `heroImage` como preview si existe (con sus dimensiones reales); sin `heroImage` caen al default.
+
+**Revisar previews sin deploy**: `npm run og:preview` (build + genera `dist/_og-preview.html` + sirve). Abrir `http://localhost:4321/_og-preview.html` → tarjetas mock de WhatsApp/LinkedIn/X con los meta reales de cada página. Tras deploy, validar con el scraper real: Post Inspector de LinkedIn / opengraph.xyz.
 
 ## Pendientes / notas
 
