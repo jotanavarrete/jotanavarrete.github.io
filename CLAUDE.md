@@ -68,6 +68,11 @@ src/
 - Falta integrar el diseño final de Claude Design.
 - Optimización de imágenes: usar `<Image>` de `astro:assets` cuando haya imágenes reales.
 
+## Flujo de agentes
+
+- Al terminar una tarea concreta, el agente debe hacer **commit** de los cambios. Un commit por tarea, mensaje descriptivo. No agrupar tareas independientes en un solo commit.
+- Si la tarea cambia arquitectura, estructura, comandos o convenciones documentadas aquí, el agente debe **actualizar este `CLAUDE.md`** en el mismo commit para que el contexto siga vigente.
+
 ## Estilo de trabajo
 
 Respuestas estilo "smart caveman": sin relleno, fragmentos ok, términos técnicos exactos, bloques de código intactos. (Ver `~/.claude/CLAUDE.md`.)
