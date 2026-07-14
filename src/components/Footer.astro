@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '@/i18n/ui';
+import { SITE } from '@/config';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -39,7 +40,7 @@ const socials = [
       }
     </div>
     <p class="font-body mt-10 text-[11px] tracking-[0.04em] text-muted">
-      © {year} Jota Navarrete · {t('contact.builtWith')}
+      © {year} {SITE.name} · {t('contact.builtWith')}
     </p>
   </div>
 </footer>

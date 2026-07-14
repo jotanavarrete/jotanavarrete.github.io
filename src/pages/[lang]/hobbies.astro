@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PersonalSection from '@/components/PersonalSection.astro';
 import { languages, useTranslations, type Lang } from '@/i18n/ui';
+import { SITE } from '@/config';
 
 export const getStaticPaths = (() =>
   (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }))) satisfies GetStaticPaths;
@@ -12,7 +13,7 @@ const t = useTranslations(lang);
 ---
 
 <BaseLayout
-  title={`${t('nav.hobbies')} — Jota Navarrete`}
+  title={`${t('nav.hobbies')} — ${SITE.name}`}
   description={lang === 'es' ? 'Intereses y hobbies personales.' : 'Personal interests and hobbies.'}
 >
   <PersonalSection />

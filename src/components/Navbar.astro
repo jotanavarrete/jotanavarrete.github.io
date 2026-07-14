@@ -1,6 +1,7 @@
 ---
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import { getLangFromUrl, useTranslations, type Lang } from '@/i18n/ui';
+import { SITE } from '@/config';
 
 interface Props {
   langOverrides?: Partial<Record<Lang, string>>;
@@ -34,9 +35,9 @@ const links = [
       <span
         class="font-body flex h-[26px] w-[26px] items-center justify-center rounded-lg bg-accent text-[13px] font-semibold text-white"
       >
-        J
+        {SITE.name.charAt(0)}
       </span>
-      Jota Navarrete
+      {SITE.name}
     </a>
 
     <div class="flex items-center gap-6 sm:gap-7">

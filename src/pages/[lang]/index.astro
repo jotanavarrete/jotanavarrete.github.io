@@ -6,6 +6,7 @@ import ExperienceSection from '@/components/ExperienceSection.astro';
 import BlogSection from '@/components/BlogSection.astro';
 import PersonalSection from '@/components/PersonalSection.astro';
 import { languages, type Lang } from '@/i18n/ui';
+import { SITE } from '@/config';
 
 export const getStaticPaths = (() =>
   (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }))) satisfies GetStaticPaths;
@@ -14,11 +15,11 @@ const { lang } = Astro.params as { lang: Lang };
 
 const content = {
   es: {
-    title: 'Jota Navarrete — Portfolio',
+    title: `${SITE.name} — Portfolio`,
     description: 'Ingeniero de software. CV, experiencia y blog.',
   },
   en: {
-    title: 'Jota Navarrete — Portfolio',
+    title: `${SITE.name} — Portfolio`,
     description: 'Software engineer. CV, experience and blog.',
   },
 }[lang];

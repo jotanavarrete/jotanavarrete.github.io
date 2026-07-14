@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ContactForm from '@/components/ContactForm.astro';
 import { languages, useTranslations, type Lang } from '@/i18n/ui';
+import { SITE } from '@/config';
 
 export const getStaticPaths = (() =>
   (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }))) satisfies GetStaticPaths;
@@ -12,7 +13,7 @@ const t = useTranslations(lang);
 ---
 
 <BaseLayout
-  title={`${t('nav.contact')} — Jota Navarrete`}
+  title={`${t('nav.contact')} — ${SITE.name}`}
   description={lang === 'es'
     ? 'Escríbeme para proyectos, colaboraciones o para charlar sobre pipelines.'
     : 'Get in touch about projects, collaborations, or to chat about pipelines.'}
