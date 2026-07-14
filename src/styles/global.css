@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+
+/* Tailwind v4 theme customization lives here via @theme.
+   Design tokens from Claude Design go here later. */
+@theme {
+  /* Example placeholders — reemplazar con tokens del diseño final.
+  --color-brand-500: oklch(0.62 0.19 260);
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  */
+}
+
+html {
+  scroll-behavior: smooth;
+}
