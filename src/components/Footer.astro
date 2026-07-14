@@ -4,10 +4,41 @@ import { getLangFromUrl, useTranslations } from '@/i18n/ui';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
+
+// TODO: replace with real contact details.
+const contactEmail = 'mail@mail.com';
+const socials = [
+  { label: 'GitHub', href: '#' },
+  { label: 'LinkedIn', href: '#' },
+  { label: 'Twitter', href: '#' },
+];
 ---
 
-<footer class="border-t border-gray-200 mt-16">
-  <div class="mx-auto max-w-5xl px-4 py-8 text-sm text-gray-500">
-    © {year} Jota Navarrete. {t('footer.rights')}
+<footer id="contact" class="border-t border-line">
+  <div class="mx-auto max-w-5xl px-10 pt-16 pb-18 text-center" data-reveal>
+    <h2 class="font-display text-[40px] font-medium tracking-[-0.02em] text-ink">
+      {t('contact.title')}
+    </h2>
+    <p class="mx-auto mt-3 max-w-[26em] text-[16px] leading-[1.6] text-muted">
+      {t('contact.sub')}
+    </p>
+    <a
+      href={`mailto:${contactEmail}`}
+      class="font-body mt-[26px] inline-block rounded-[11px] bg-accent px-[26px] py-3.5 text-[15px] font-semibold text-white no-underline transition hover:-translate-y-0.5 hover:shadow-[0_16px_30px_-14px_var(--color-accent)]"
+    >
+      {t('contact.cta')}
+    </a>
+    <div class="mt-[30px] flex justify-center gap-[22px] text-[13px] tracking-[0.02em]">
+      {
+        socials.map((s) => (
+          <a href={s.href} class="text-muted no-underline transition-colors hover:text-accent">
+            {s.label}
+          </a>
+        ))
+      }
+    </div>
+    <p class="font-body mt-10 text-[11px] tracking-[0.04em] text-muted">
+      © {year} Jota Navarrete · {t('contact.builtWith')}
+    </p>
   </div>
 </footer>

@@ -51,11 +51,33 @@ const ogImage = new URL(image, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
   </head>
-  <body class="min-h-screen flex flex-col bg-white text-gray-900 antialiased">
+  <body class="min-h-screen flex flex-col bg-bg text-ink antialiased">
     <Navbar />
     <main class="flex-1">
       <slot />
     </main>
     <Footer />
+
+    <script>
+      // Global reveal-on-scroll for any [data-reveal] element on the page.
+      // CSS (global.css) handles the prefers-reduced-motion fallback.
+      const els = document.querySelectorAll('[data-reveal]');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.15 }
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('is-visible'));
+      }
+    </script>
   </body>
 </html>

@@ -19,27 +19,35 @@ const current = lang === 'es' ? 'Actualidad' : 'Present';
 const end = item.endDate ? formatDate(item.endDate) : current;
 ---
 
-<article class="py-6 border-b border-gray-100">
-  <div class="flex flex-wrap items-baseline justify-between gap-2">
-    <h3 class="text-lg font-semibold">
-      {item.role} ·
-      {
-        item.companyUrl ? (
-          <a href={item.companyUrl} class="underline" target="_blank" rel="noopener">
-            {item.company}
-          </a>
-        ) : (
-          item.company
-        )
-      }
-    </h3>
-    <span class="text-sm text-gray-500">{formatDate(item.startDate)} — {end}</span>
+<article
+  data-reveal
+  class="relative mb-[26px] rounded-card border border-line bg-card px-6 py-[22px] transition duration-[250ms] hover:-translate-y-[3px] hover:border-accent-soft hover:shadow-[0_20px_40px_-28px_rgba(40,30,20,0.5)]"
+>
+  <span
+    class="absolute top-[26px] -left-[33px] h-[13px] w-[13px] rounded-full border-[3px] border-bg bg-accent"
+  ></span>
+  <div class="flex flex-wrap items-baseline justify-between gap-4">
+    <h3 class="font-display text-[21px] font-medium text-ink">{item.role}</h3>
+    <span class="font-body text-[12px] tracking-[0.02em] whitespace-nowrap text-muted">
+      {formatDate(item.startDate)} — {end}
+    </span>
   </div>
-  {item.location && <p class="text-sm text-gray-500">{item.location}</p>}
-  <p class="mt-2 text-gray-700">{item.summary}</p>
+  <div class="mt-0.5 text-[15px] font-semibold text-accent">
+    {
+      item.companyUrl ? (
+        <a href={item.companyUrl} class="hover:underline" target="_blank" rel="noopener">
+          {item.company}
+        </a>
+      ) : (
+        item.company
+      )
+    }
+    {item.location && <span class="font-normal text-muted"> · {item.location}</span>}
+  </div>
+  <p class="mt-2.5 text-[15px] leading-[1.6] text-muted">{item.summary}</p>
   {
     item.highlights.length > 0 && (
-      <ul class="mt-2 list-disc list-inside text-gray-700 space-y-1">
+      <ul class="mt-2.5 list-disc space-y-1 pl-5 text-[15px] leading-[1.6] text-muted">
         {item.highlights.map((h) => (
           <li>{h}</li>
         ))}
@@ -48,9 +56,11 @@ const end = item.endDate ? formatDate(item.endDate) : current;
   }
   {
     item.tags.length > 0 && (
-      <ul class="mt-3 flex flex-wrap gap-2">
+      <ul class="mt-3.5 flex flex-wrap gap-[7px]">
         {item.tags.map((tag) => (
-          <li class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">{tag}</li>
+          <li class="font-body rounded-[7px] border border-line bg-bg px-[9px] py-1 text-[11px] tracking-[0.02em] text-ink">
+            {tag}
+          </li>
         ))}
       </ul>
     )

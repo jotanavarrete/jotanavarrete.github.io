@@ -8,8 +8,18 @@ interface Props {
 const { title, description, icon } = Astro.props;
 ---
 
-<article class="p-6 rounded-xl border border-gray-200">
-  {icon && <div class="text-3xl mb-3">{icon}</div>}
-  <h3 class="text-lg font-semibold">{title}</h3>
-  <p class="mt-2 text-gray-700">{description}</p>
+<article
+  data-reveal
+  class="overflow-hidden rounded-card border border-[rgba(194,65,12,0.14)] bg-panel transition duration-[250ms] hover:-translate-y-1 hover:rotate-[-0.6deg] hover:shadow-[0_22px_44px_-26px_rgba(120,55,20,0.5)]"
+>
+  <div
+    class="flex aspect-square items-center justify-center bg-card text-[44px]"
+    style="background-image: repeating-linear-gradient(45deg, rgba(194,65,12,0.12) 0, rgba(194,65,12,0.12) 1px, transparent 1px, transparent 12px);"
+  >
+    {icon}
+  </div>
+  <div class="px-[15px] py-3.5">
+    <div class="font-display text-[17px] font-medium text-ink">{title}</div>
+    <p class="mt-[5px] text-[13px] leading-[1.5] text-muted">{description}</p>
+  </div>
 </article>

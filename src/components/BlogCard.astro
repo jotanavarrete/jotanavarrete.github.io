@@ -14,25 +14,29 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const dateLabel = pubDate.toLocaleDateString(lang, {
   year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+  month: 'short',
 });
+const primaryTag = tags[0];
 ---
 
-<article class="py-6 border-b border-gray-100">
-  <time datetime={pubDate.toISOString()} class="text-sm text-gray-500">{dateLabel}</time>
-  <h3 class="mt-1 text-xl font-semibold">
-    <a href={href} class="hover:underline">{title}</a>
-  </h3>
-  <p class="mt-2 text-gray-700">{description}</p>
-  {
-    tags.length > 0 && (
-      <ul class="mt-2 flex flex-wrap gap-2">
-        {tags.map((tag) => (
-          <li class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">#{tag}</li>
-        ))}
-      </ul>
-    )
-  }
-  <a href={href} class="inline-block mt-3 text-sm underline">{t('blog.readMore')}</a>
-</article>
+<a
+  href={href}
+  data-reveal
+  class="flex flex-col rounded-card border border-line bg-card p-5 no-underline transition duration-[250ms] hover:-translate-y-1 hover:border-accent-soft hover:shadow-[0_22px_44px_-28px_rgba(40,30,20,0.5)]"
+>
+  <div class="mb-3.5 flex items-center justify-between">
+    {
+      primaryTag && (
+        <span class="font-body rounded-[7px] bg-accent-soft px-[9px] py-1 text-[11px] tracking-[0.03em] text-accent uppercase">
+          {primaryTag}
+        </span>
+      )
+    }
+    <time datetime={pubDate.toISOString()} class="font-body text-[11px] text-muted">
+      {dateLabel}
+    </time>
+  </div>
+  <h3 class="font-display text-[18px] leading-[1.25] font-medium text-ink">{title}</h3>
+  <p class="mt-2.5 mb-4 flex-1 text-[14px] leading-[1.55] text-muted">{description}</p>
+  <span class="font-body text-[13px] font-semibold text-accent">{t('blog.readMore')} →</span>
+</a>

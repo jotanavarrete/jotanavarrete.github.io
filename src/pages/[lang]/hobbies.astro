@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import HobbyCard from '@/components/HobbyCard.astro';
+import SectionHeader from '@/components/SectionHeader.astro';
 import { languages, useTranslations, type Lang } from '@/i18n/ui';
 
 export const getStaticPaths = (() =>
@@ -17,11 +18,13 @@ const hobbies = {
     { icon: '📷', title: 'Fotografía', description: 'Capturo paisajes y calle los fines de semana.' },
     { icon: '🎸', title: 'Música', description: 'Toco guitarra y experimento con producción.' },
     { icon: '🥾', title: 'Senderismo', description: 'Exploro cerros y rutas cerca de casa.' },
+    { icon: '📚', title: 'Lectura', description: 'Ciencia ficción y ensayos sobre sistemas complejos.' },
   ],
   en: [
     { icon: '📷', title: 'Photography', description: 'I shoot landscapes and street on weekends.' },
     { icon: '🎸', title: 'Music', description: 'I play guitar and dabble in production.' },
     { icon: '🥾', title: 'Hiking', description: 'I explore hills and trails near home.' },
+    { icon: '📚', title: 'Reading', description: 'Sci-fi and essays on complex systems.' },
   ],
 }[lang];
 ---
@@ -30,9 +33,13 @@ const hobbies = {
   title={`${t('nav.hobbies')} — Jota Navarrete`}
   description={lang === 'es' ? 'Intereses y hobbies personales.' : 'Personal interests and hobbies.'}
 >
-  <section class="mx-auto max-w-5xl px-4 py-16">
-    <h1 class="text-3xl font-bold mb-8">{t('nav.hobbies')}</h1>
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <section class="mx-auto max-w-5xl px-[22px] py-11 sm:px-10 sm:py-13">
+    <SectionHeader
+      kicker={t('personal.kicker')}
+      title={t('personal.title')}
+      sub={t('personal.sub')}
+    />
+    <div class="mt-7 grid grid-cols-2 gap-4 sm:grid-cols-4">
       {hobbies.map((h) => <HobbyCard title={h.title} description={h.description} icon={h.icon} />)}
     </div>
   </section>
