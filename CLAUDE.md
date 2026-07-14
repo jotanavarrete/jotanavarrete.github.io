@@ -64,9 +64,18 @@ src/
 - `.github/workflows/deploy.yml`: build + deploy a Pages en push a `main` (usa `withastro/action@v3` + `actions/deploy-pages@v4`).
 - Requisito una sola vez: en Settings → Pages del repo, **Source = GitHub Actions**.
 
+## Previews sociales (Open Graph)
+
+`BaseLayout` emite meta OG + Twitter (title, description, url, image 1200×630, `og:site_name`, `og:locale` + alternate, `og:type`). Imagen default: `public/og-default.png`, generada por `scripts/gen-og.mjs` (sharp, SVG→PNG, tokens de `global.css`). Regenerar tras cambiar nombre/rol/colores:
+
+```bash
+node scripts/gen-og.mjs public/og-default.png
+```
+
+Props útiles de `BaseLayout`: `image`, `imageWidth`, `imageHeight`, `imageAlt`, `ogType`. Los blog posts pasan `ogType="article"` y usan `heroImage` como preview si existe (con sus dimensiones reales); sin `heroImage` caen al default. Validar con el debugger de LinkedIn / opengraph.xyz tras deploy.
+
 ## Pendientes / notas
 
-- `BaseLayout` referencia `public/og-default.png` (aún no existe) — crear imagen OG real.
 - Falta integrar el diseño final de Claude Design.
 - Optimización de imágenes: usar `<Image>` de `astro:assets` cuando haya imágenes reales.
 

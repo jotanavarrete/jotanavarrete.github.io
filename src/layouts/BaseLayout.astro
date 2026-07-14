@@ -3,19 +3,39 @@ import '@/styles/global.css';
 import Navbar from '@/components/Navbar.astro';
 import Footer from '@/components/Footer.astro';
 import { getLangFromUrl, type Lang } from '@/i18n/ui';
+import { SITE } from '@/config';
 
 interface Props {
   title: string;
   description: string;
   /** Optional OG image path relative to site root. */
   image?: string;
+  /** OG image pixel dimensions (defaults match og-default.png). */
+  imageWidth?: number;
+  imageHeight?: number;
+  /** Alt text for the OG image. */
+  imageAlt?: string;
+  /** og:type — 'website' (default) or 'article' for blog posts. */
+  ogType?: 'website' | 'article';
   /** Per-language href overrides forwarded to the language switcher
       (used by blog posts whose slug differs across languages). */
   langOverrides?: Partial<Record<Lang, string>>;
 }
 
-const { title, description, image = '/og-default.png', langOverrides } = Astro.props;
+const {
+  title,
+  description,
+  image = '/og-default.png',
+  imageWidth = 1200,
+  imageHeight = 630,
+  imageAlt = SITE.fullname,
+  ogType = 'website',
+  langOverrides,
+} = Astro.props;
 const lang = getLangFromUrl(Astro.url);
+const altLang: Lang = lang === 'es' ? 'en' : 'es';
+const ogLocale = lang === 'es' ? 'es_ES' : 'en_US';
+const ogLocaleAlt = altLang === 'es' ? 'es_ES' : 'en_US';
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
@@ -42,17 +62,24 @@ const ogImage = new URL(image, Astro.site);
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.fullname} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogLocaleAlt} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
+    <meta property="og:image:alt" content={imageAlt} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
   </head>
   <body class="min-h-screen flex flex-col bg-bg text-ink antialiased">
     <Navbar langOverrides={langOverrides} />

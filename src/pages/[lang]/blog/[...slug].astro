@@ -45,6 +45,11 @@ const dateLabel = post.data.pubDate.toLocaleDateString(lang, {
 <BaseLayout
   title={`${post.data.title} — ${SITE.name}`}
   description={post.data.description}
+  ogType="article"
+  image={post.data.heroImage?.src}
+  imageWidth={post.data.heroImage?.width}
+  imageHeight={post.data.heroImage?.height}
+  imageAlt={post.data.heroImage ? post.data.title : undefined}
   langOverrides={langOverrides}
 >
   <article class="mx-auto max-w-3xl px-4 py-16">
