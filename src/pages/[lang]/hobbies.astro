@@ -1,0 +1,39 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HobbyCard from '@/components/HobbyCard.astro';
+import { languages, useTranslations, type Lang } from '@/i18n/ui';
+
+export const getStaticPaths = (() =>
+  (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }))) satisfies GetStaticPaths;
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+
+// Hobbies are UI-ish content; keep them inline per language for now.
+// Move to data/hobbies.<lang>.json if the list grows.
+const hobbies = {
+  es: [
+    { icon: '📷', title: 'Fotografía', description: 'Capturo paisajes y calle los fines de semana.' },
+    { icon: '🎸', title: 'Música', description: 'Toco guitarra y experimento con producción.' },
+    { icon: '🥾', title: 'Senderismo', description: 'Exploro cerros y rutas cerca de casa.' },
+  ],
+  en: [
+    { icon: '📷', title: 'Photography', description: 'I shoot landscapes and street on weekends.' },
+    { icon: '🎸', title: 'Music', description: 'I play guitar and dabble in production.' },
+    { icon: '🥾', title: 'Hiking', description: 'I explore hills and trails near home.' },
+  ],
+}[lang];
+---
+
+<BaseLayout
+  title={`${t('nav.hobbies')} — Jota Navarrete`}
+  description={lang === 'es' ? 'Intereses y hobbies personales.' : 'Personal interests and hobbies.'}
+>
+  <section class="mx-auto max-w-5xl px-4 py-16">
+    <h1 class="text-3xl font-bold mb-8">{t('nav.hobbies')}</h1>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {hobbies.map((h) => <HobbyCard title={h.title} description={h.description} icon={h.icon} />)}
+    </div>
+  </section>
+</BaseLayout>

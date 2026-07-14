@@ -1,0 +1,38 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n/ui';
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags?: string[];
+}
+
+const { href, title, description, pubDate, tags = [] } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const dateLabel = pubDate.toLocaleDateString(lang, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="py-6 border-b border-gray-100">
+  <time datetime={pubDate.toISOString()} class="text-sm text-gray-500">{dateLabel}</time>
+  <h3 class="mt-1 text-xl font-semibold">
+    <a href={href} class="hover:underline">{title}</a>
+  </h3>
+  <p class="mt-2 text-gray-700">{description}</p>
+  {
+    tags.length > 0 && (
+      <ul class="mt-2 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <li class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">#{tag}</li>
+        ))}
+      </ul>
+    )
+  }
+  <a href={href} class="inline-block mt-3 text-sm underline">{t('blog.readMore')}</a>
+</article>

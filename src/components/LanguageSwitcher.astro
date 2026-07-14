@@ -1,0 +1,24 @@
+---
+import { languages, getLangFromUrl, switchLanguagePath, type Lang } from '@/i18n/ui';
+
+const currentLang = getLangFromUrl(Astro.url);
+const base = import.meta.env.BASE_URL;
+---
+
+<div class="flex gap-2 text-sm">
+  {
+    (Object.keys(languages) as Lang[]).map((lang) => (
+      <a
+        href={switchLanguagePath(Astro.url, lang, base)}
+        hreflang={lang}
+        aria-current={lang === currentLang ? 'true' : undefined}
+        class:list={[
+          'px-2 py-1 rounded',
+          lang === currentLang ? 'font-semibold underline' : 'text-gray-500 hover:text-gray-900',
+        ]}
+      >
+        {lang.toUpperCase()}
+      </a>
+    ))
+  }
+</div>
